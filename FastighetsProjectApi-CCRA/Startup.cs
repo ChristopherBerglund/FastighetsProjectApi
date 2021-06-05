@@ -12,6 +12,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FastighetsProjectApi_CCRA.Extension;
+using AutoMapper;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace FastighetsProjectApi_CCRA
 {
@@ -27,15 +30,20 @@ namespace FastighetsProjectApi_CCRA
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.ConfigureCors();
+            services.ConfigureIISIntergration();
+            services.ConfigureSqlContext(Configuration);
+            services.ConfigureRepositoryManager();
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
+             //???
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FastighetsProjectApi_CCRA", Version = "v1" });
             });
 
-            services.AddDbContext<DbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DbContext")));
+            //services.AddDbContext<DbContext>(options =>
+            //        options.UseSqlServer(Configuration.GetConnectionString("DbContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +57,13 @@ namespace FastighetsProjectApi_CCRA
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();//
+            app.UseCors("CorsPolicy");//
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            });//
 
             app.UseRouting();
 

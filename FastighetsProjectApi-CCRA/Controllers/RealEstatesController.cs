@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FastighetsProjectApi_CCRA.Model;
-
+    
 namespace FastighetsProjectApi_CCRA.Controllers
 {
     [Route("api/[controller]")]
@@ -46,7 +46,7 @@ namespace FastighetsProjectApi_CCRA.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRealEstate(int id, RealEstate realEstate)
         {
-            if (id != realEstate.Id)
+            if (id != realEstate.id)
             {
                 return BadRequest();
             }
@@ -101,7 +101,7 @@ namespace FastighetsProjectApi_CCRA.Controllers
 
         private bool RealEstateExists(int id)
         {
-            return _context.RealEstates.Any(e => e.Id == id);
+            return _context.RealEstates.Any(e => e.id == id);
         }
     }
 }

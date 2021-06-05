@@ -30,7 +30,9 @@ namespace FastighetsProjectApi_CCRA.Model
         [StringLength(1000, MinimumLength = 10)]
         public string Description { get; set; }
         [Required]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
+        [Key]
+        public int id { get; set; }
         [Required(ErrorMessage = "Skriv en titel.")]
         [StringLength(50, MinimumLength = 5)]
         public string Title { get; set; }

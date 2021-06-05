@@ -8,6 +8,8 @@ namespace FastighetsProjectApi_CCRA.Model
 {
     public class User
     {
+        public Guid ID { get; set; } //Testar
+       
         public string UserId { get; set; }
         public string UserName { get; set; }
         public int RealEstates { get; set; }
