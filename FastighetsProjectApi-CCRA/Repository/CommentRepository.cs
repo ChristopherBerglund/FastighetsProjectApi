@@ -35,7 +35,7 @@ namespace FastighetsProjectApi_CCRA.Repository
         }
 
         IEnumerable<Comment> ICommentRepository.GetByIds(IEnumerable<Guid> ids, bool trackChanges) =>
-            FindByCondition(x => ids.Contains(x.ID), trackChanges) //GUID?
+            FindByCondition(x => ids.Contains(x.GuidID), trackChanges) //GUID?
                 .ToList();
     }
 }

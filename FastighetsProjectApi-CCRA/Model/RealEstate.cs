@@ -32,7 +32,7 @@ namespace FastighetsProjectApi_CCRA.Model
         [Required]
         public Guid Id { get; set; }
         [Key]
-        public int id { get; set; }
+        public int ide { get; set; }
         [Required(ErrorMessage = "Skriv en titel.")]
         [StringLength(50, MinimumLength = 5)]
         public string Title { get; set; }

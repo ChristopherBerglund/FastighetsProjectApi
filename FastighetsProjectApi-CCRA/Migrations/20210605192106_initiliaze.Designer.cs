@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FastighetsProjectApi_CCRA.Migrations
 {
     [DbContext(typeof(DbContext))]
-    [Migration("20210605164722_initialize")]
-    partial class initialize
+    [Migration("20210605192106_initiliaze")]
+    partial class initiliaze
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,9 @@ namespace FastighetsProjectApi_CCRA.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("GuidID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("RealEstateId")
                         .HasColumnType("int");
 
@@ -49,7 +52,7 @@ namespace FastighetsProjectApi_CCRA.Migrations
 
             modelBuilder.Entity("FastighetsProjectApi_CCRA.Model.RealEstate", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ide")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -79,6 +82,9 @@ namespace FastighetsProjectApi_CCRA.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -102,15 +108,16 @@ namespace FastighetsProjectApi_CCRA.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ide");
 
                     b.ToTable("RealEstates");
                 });
 
             modelBuilder.Entity("FastighetsProjectApi_CCRA.Model.User", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AvatarImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -124,10 +131,13 @@ namespace FastighetsProjectApi_CCRA.Migrations
                     b.Property<int>("RealEstates")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("ID");
 
                     b.ToTable("Users");
                 });

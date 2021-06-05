@@ -32,7 +32,7 @@ namespace FastighetsProjectApi_CCRA.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("ID")
+                    b.Property<Guid>("GuidID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("RealEstateId")
@@ -50,7 +50,7 @@ namespace FastighetsProjectApi_CCRA.Migrations
 
             modelBuilder.Entity("FastighetsProjectApi_CCRA.Model.RealEstate", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("ide")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -106,7 +106,7 @@ namespace FastighetsProjectApi_CCRA.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("ide");
 
                     b.ToTable("RealEstates");
                 });

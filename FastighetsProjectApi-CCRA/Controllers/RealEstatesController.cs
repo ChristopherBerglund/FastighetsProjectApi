@@ -46,7 +46,7 @@ namespace FastighetsProjectApi_CCRA.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRealEstate(int id, RealEstate realEstate)
         {
-            if (id != realEstate.id)
+            if (id != realEstate.ide)
             {
                 return BadRequest();
             }
@@ -101,7 +101,7 @@ namespace FastighetsProjectApi_CCRA.Controllers
 
         private bool RealEstateExists(int id)
         {
-            return _context.RealEstates.Any(e => e.id == id);
+            return _context.RealEstates.Any(e => e.ide == id);
         }
     }
 }

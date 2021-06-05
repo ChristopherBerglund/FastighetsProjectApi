@@ -7,7 +7,7 @@ namespace FastighetsProjectApi_CCRA.Model
     public class Comment
     {
         
-        public Guid ID { get; set; }
+        public Guid GuidID { get; set; }
         [Key]
         public int id { get; set; }
         [ForeignKey("RealEstateId")]
