@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.HttpOverrides;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
+using FastighetsProjectApi_CCRA.Areas.Identity.Data;
 
 namespace FastighetsProjectApi_CCRA
 {
@@ -45,7 +47,13 @@ namespace FastighetsProjectApi_CCRA
                     {
                         OnTokenValidated = context =>
                         {
-                            // TODO:
+                            // FastighetsProjectApi_CCRAUser
+                            var userMachine = context.HttpContext.RequestServices.GetRequiredService<UserManager<FastighetsProjectApi_CCRAUser>>();
+                            var user = userMachine.GetUserAsync(context.HttpContext.User);
+                            if(user == null)
+                            {
+                                context.Fail("Unathorized");
+                            }
                             return Task.CompletedTask;
                         }
                     };
