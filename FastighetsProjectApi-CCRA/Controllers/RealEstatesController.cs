@@ -6,11 +6,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FastighetsProjectApi_CCRA.Model;
-    
+using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+
 namespace FastighetsProjectApi_CCRA.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RealEstatesController : ControllerBase
     {
         private readonly DbContext _context;
@@ -102,6 +108,36 @@ namespace FastighetsProjectApi_CCRA.Controllers
         private bool RealEstateExists(int id)
         {
             return _context.RealEstates.Any(e => e.ide == id);
+        }
+
+        [HttpPost("getToken")]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetToken([FromBody] MyLoginModelType myLogiiModel)
+        {
+            if (myLogiiModel.Email == "jones@msn.com" && myLogiiModel.Password == "myPW123")
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes("Krypterings_nyckel_ubwHBJHgirbIBHIBH768Bhfbehbkvs%&/()");
+                var tokenDescriptior = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                    new Claim(ClaimTypes.Name, myLogiiModel.Email)
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptior);
+                var tokenString = tokenHandler.WriteToken(token);
+
+                return Ok(new { Token = tokenString });
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
         }
     }
 }
