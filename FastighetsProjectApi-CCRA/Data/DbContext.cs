@@ -87,7 +87,7 @@ public class DbContext : Microsoft.EntityFrameworkCore.DbContext
                     new Comment
                     {
                         GuidID = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991798"),
-                        id = 5,
+                        id = 1,
                         RealEstateId = 1,
                         Content = "Superbra",
                         UserName = "Björn",
@@ -97,7 +97,7 @@ public class DbContext : Microsoft.EntityFrameworkCore.DbContext
                     new Comment
                     {
                         GuidID = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991797"),
-                        id = 6,
+                        id = 2,
                         RealEstateId = 2,
                         Content = "Superbra men jättedåligt",
                         UserName = "Nisse",
