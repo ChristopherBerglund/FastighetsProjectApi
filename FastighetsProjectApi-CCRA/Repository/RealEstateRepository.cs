@@ -1,5 +1,7 @@
 ﻿using FastighetsProjectApi_CCRA.Contracs;
+using FastighetsProjectApi_CCRA.HelpClasses;
 using FastighetsProjectApi_CCRA.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +39,12 @@ namespace FastighetsProjectApi_CCRA.Repository
         IEnumerable<RealEstate> IRealEstateRepository.GetByIds(IEnumerable<Guid> ids, bool trackChanges) =>
             FindByCondition(x => ids.Contains(x.Id), trackChanges) //GUID?
                 .ToList();
+
+        public IEnumerable<RealEstate> GetRealEstateST(SkipTakeParameters skipTakeParameters)
+        {
+     
+            return _dbContext.RealEstates.Include(x => x.Comments).Skip(skipTakeParameters.skip).Take(skipTakeParameters.take).OrderByDescending(c => c.CreatedOn).ToList();
+        }
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using FastighetsProjectApi_CCRA.Model;
+﻿using FastighetsProjectApi_CCRA.HelpClasses;
+using FastighetsProjectApi_CCRA.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace FastighetsProjectApi_CCRA.Contracs
     {
         IEnumerable<Comment> GetAllComment(bool trackChanges);
         Comment GetComment(Guid id, bool trackChanges);
-        public List<Comment> GetCommentSkipTake(int id, int skip, int take);
-        //public List<Comment> GetCommentSkipTake(int id);
+
         void CreateComment(Comment comment);
         IEnumerable<Comment> GetByIds(IEnumerable<Guid> ids, bool trackChanges); //?
         void DeleteComment(Comment comment);
+
+        IEnumerable<Comment> GetCommentsTS(int id, SkipTakeParameters skipTakeParameters);
+        IEnumerable<Comment> GetCommentsByUserTS(string username, SkipTakeParameters skipTakeParameters);
     }
 }

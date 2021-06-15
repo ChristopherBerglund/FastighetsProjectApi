@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FastighetsProjectApi_CCRA.Contracs
 {
-    public interface IRepositoryManager
+    public interface IRepositoryManager 
     {
         //IUserRepository User { get; }
         //IRealEstateRepository RealEstate { get; }

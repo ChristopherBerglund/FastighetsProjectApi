@@ -1,4 +1,5 @@
-﻿using FastighetsProjectApi_CCRA.Model;
+﻿using FastighetsProjectApi_CCRA.HelpClasses;
+using FastighetsProjectApi_CCRA.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace FastighetsProjectApi_CCRA.Contracs
         //void UpdateRealEstate(int ID);
         IEnumerable<RealEstate> GetByIds(IEnumerable<Guid> ids, bool trackChanges); //?
         void DeleteRealEstate(RealEstate realEstate);
+
+        IEnumerable<RealEstate> GetRealEstateST(SkipTakeParameters skipTakParameters);
     }
 }

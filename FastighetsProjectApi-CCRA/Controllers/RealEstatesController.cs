@@ -15,6 +15,8 @@ using FastighetsProjectApi_CCRA.Data;
 using Microsoft.AspNetCore.Identity;
 using FastighetsProjectApi_CCRA.Areas.Identity.Data;
 using System.Web.Http.Description;
+using FastighetsProjectApi_CCRA.HelpClasses;
+using FastighetsProjectApi_CCRA.Contracs;
 
 namespace FastighetsProjectApi_CCRA.Controllers
 {
@@ -24,12 +26,12 @@ namespace FastighetsProjectApi_CCRA.Controllers
     public class RealEstatesController : ControllerBase
     {
         private readonly DbContext _context;
+        private readonly IRealEstateRepository _realEstateRepository;
 
-
-        public RealEstatesController(DbContext context)
+        public RealEstatesController(DbContext context, IRealEstateRepository realEstateRepository)
         {
             _context = context;
-
+            _realEstateRepository = realEstateRepository;
         }
         //[HttpGet] //Försökte lösa httpget med parametrar strulade...
         //[AllowAnonymous]
@@ -43,20 +45,22 @@ namespace FastighetsProjectApi_CCRA.Controllers
 
 
         //GET: api/RealEstates
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<RealEstate>>> GetRealEstates()
-        {
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public async Task<ActionResult<IEnumerable<RealEstate>>> GetRealEstates()
+        //{
 
-            return await _context.RealEstates.Include(d => d.Comments).OrderByDescending(d => d.CreatedOn).Take(10).ToListAsync();
-        }
+        //    return await _context.RealEstates.Include(d => d.Comments).OrderByDescending(d => d.CreatedOn).Take(10).ToListAsync();
+        //}
 
         // GET: api/RealEstates?skip={int}&take={int}
-        [HttpGet("skiptake")]
+        [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<RealEstate>>> GetRealEstatesQuery([FromQuery] int skip, [FromQuery] int take)
+        public async Task<ActionResult<IEnumerable<RealEstate>>> GetRealEstatesQuery([FromQuery] SkipTakeParameters skipTakeParameters)
         {
-            return await _context.RealEstates.Include(d => d.Comments).OrderBy(d => d.CreatedOn).Skip(skip).Take(take).ToListAsync();
+            var realestates = _realEstateRepository.GetRealEstateST(skipTakeParameters);
+            return Ok(realestates);
+            //return await _context.RealEstates.Include(d => d.Comments).OrderBy(d => d.CreatedOn).Skip(skip).Take(take).ToListAsync();
         }
 
         // GET: api/RealEstates/5

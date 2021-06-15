@@ -20,6 +20,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using FastighetsProjectApi_CCRA.Areas.Identity.Data;
+using FastighetsProjectApi_CCRA.Contracs;
+using FastighetsProjectApi_CCRA.Repository;
 
 namespace FastighetsProjectApi_CCRA
 {
@@ -81,9 +83,10 @@ namespace FastighetsProjectApi_CCRA
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FastighetsProjectApi_CCRA", Version = "v1" });
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
-
-            //services.AddDbContext<DbContext>(options =>
-            //        options.UseSqlServer(Configuration.GetConnectionString("DbContext")));
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IRealEstateRepository, RealEstateRepository>();
+            services.AddDbContext<DbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DbContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
