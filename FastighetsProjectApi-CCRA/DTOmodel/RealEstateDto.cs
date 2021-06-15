@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FastighetsProjectApi_CCRA.Model
 {
-    public class RealEstate
+    public class RealEstateDTO
     {
         public string ImageUrl { get; set; }
-        [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Phone Number")]
-        [Required(ErrorMessage = "Phone Number Required!")]
-        public string Contact { get; set; }
-        public int Commentid { get; set; }
-        public List<Comment> Comments { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime CreatedOn { get; set; }
         [Required(ErrorMessage = "Byggår är obligatorisk, mellan 1600-2025")]
@@ -30,21 +24,31 @@ namespace FastighetsProjectApi_CCRA.Model
         [StringLength(1000, MinimumLength = 10)]
         public string Description { get; set; }
         [Required]
-        public Guid Id { get; set; } 
-        [Key]
-        public int ide { get; set; }
-        [Required(ErrorMessage = "Skriv en titel.")]
-        [StringLength(50, MinimumLength = 5)]
+       
         public string Title { get; set; }
         public int? SellingPrice { get; set; }
         public int? RentingPrice { get; set; }
         public bool CanBeSold { get; set; }
         public bool CanBeRented { get; set; }
-        public string UserName { get; set; }
         public string RealestateType { get; set; }
 
-        public RealEstate()
+        public RealEstateDTO()
         {
+        }
+        public RealEstateDTO(RealEstate estate)
+        {
+            ImageUrl = estate.ImageUrl;
+            CreatedOn = estate.CreatedOn;
+            ConstructionYear = estate.ConstructionYear;
+            Address = estate.Address;
+            Type = estate.Type;
+            Description = estate.Description;
+            Title = estate.Title;
+            SellingPrice = estate.SellingPrice;
+            RentingPrice = estate.RentingPrice;
+            CanBeSold = estate.CanBeSold;
+            CanBeRented = estate.CanBeRented;
+            RealestateType = estate.RealestateType;
         }
         public enum EstateTypeEnum
         {
@@ -53,7 +57,7 @@ namespace FastighetsProjectApi_CCRA.Model
             Kontor = 3,
             Lagerhus = 4
         }
-        public RealEstate(string imageUrl, string address, int realEstateType, string title, int sellingPrice, int rentingPrice, bool canBeSold, bool canBeRented)
+        public RealEstateDTO(string imageUrl, string address, int realEstateType, string title, int sellingPrice, int rentingPrice, bool canBeSold, bool canBeRented)
         {
             ImageUrl = imageUrl;
             Address = address;

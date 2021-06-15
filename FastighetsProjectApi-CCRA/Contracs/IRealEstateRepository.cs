@@ -12,6 +12,7 @@ namespace FastighetsProjectApi_CCRA.Contracs
         IEnumerable<RealEstate> GetAllRealEstate(bool trackChanges);
         RealEstate GetRealEstate(Guid ID, bool trackChanges);
         void CreateRealEstate(RealEstate realEstate);
+        //void UpdateRealEstate(int ID);
         IEnumerable<RealEstate> GetByIds(IEnumerable<Guid> ids, bool trackChanges); //?
         void DeleteRealEstate(RealEstate realEstate);
     }

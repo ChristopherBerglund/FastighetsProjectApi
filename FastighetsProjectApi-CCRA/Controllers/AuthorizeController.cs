@@ -15,24 +15,26 @@ using System.Threading.Tasks;
 
 namespace FastighetsProjectApi_CCRA.Controllers
 {
+    [Route("api/account")]
     public class AuthorizeController : Controller
     {
         private readonly FastighetsProjectApi_CCRAContext dbContext;
+        private readonly DbContext context;
         private readonly UserManager<FastighetsProjectApi_CCRAUser> userManager;
         private readonly SignInManager<FastighetsProjectApi_CCRAUser> signInManager;
 
         public AuthorizeController(FastighetsProjectApi_CCRAContext dbContext,
+            DbContext context,
             UserManager<FastighetsProjectApi_CCRAUser> userManager,
             SignInManager<FastighetsProjectApi_CCRAUser> signInManager)
         {
             this.dbContext = dbContext;
+            this.context = context;
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
-
-
-
-        [HttpPost("getToken")]
+        //[Route("api/token")] // Vi vill ha register som sin egen adress.. oklart
+        [HttpPost("getToken")] 
         [AllowAnonymous]
         public async Task<ActionResult> GetToken([FromBody] MyLoginModelType myLoginModel)
         {
@@ -66,7 +68,7 @@ namespace FastighetsProjectApi_CCRA.Controllers
             return Ok("Failed, try again");
 
         }
-
+      
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<ActionResult> Register([FromBody] MyLoginModelType myLoginModel)

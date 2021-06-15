@@ -23,7 +23,7 @@ namespace FastighetsProjectApi_CCRA.Data
                 {
                     ID = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
                     UserId = "hejj",
-                    UserName = "börje",
+                    UserName = "börje@shietshow.ccom",
                     RealEstates  = 2,
                     Comments = 1,
                     Rating = 4
@@ -34,7 +34,7 @@ namespace FastighetsProjectApi_CCRA.Data
                 {
                     ID = new Guid("c9d4c053-49b6-410c-bc78-2d54a999187c"),
                     UserId = "hallå",
-                    UserName = "börje",
+                    UserName = "Peppe@shietshow.ccom",
                     RealEstates = 3,
                     Comments = 2,
                     Rating = 5
@@ -99,7 +99,7 @@ namespace FastighetsProjectApi_CCRA.Data
                 {
                     GuidID = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991798"),
                         id = 5,
-                        RealEstateId = 1,
+                        RealEstateIde = 1,
                         Content = "superbra",
                         UserName = "björn",
                         CreatedOn = new DateTime(2020 - 12 - 13)
@@ -110,7 +110,7 @@ namespace FastighetsProjectApi_CCRA.Data
                 {
                         GuidID = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991797"),
                         id = 6,
-                        RealEstateId = 2,
+                        RealEstateIde = 2,
                         Content = "superbra men jättedåligt",
                         UserName = "nisse",
                         CreatedOn = new DateTime(2020 - 12 - 14)

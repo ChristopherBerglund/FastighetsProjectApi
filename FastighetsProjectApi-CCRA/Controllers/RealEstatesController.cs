@@ -14,6 +14,7 @@ using System.Security.Claims;
 using FastighetsProjectApi_CCRA.Data;
 using Microsoft.AspNetCore.Identity;
 using FastighetsProjectApi_CCRA.Areas.Identity.Data;
+using System.Web.Http.Description;
 
 namespace FastighetsProjectApi_CCRA.Controllers
 {
@@ -23,36 +24,77 @@ namespace FastighetsProjectApi_CCRA.Controllers
     public class RealEstatesController : ControllerBase
     {
         private readonly DbContext _context;
-   
 
-
-      
 
         public RealEstatesController(DbContext context)
         {
             _context = context;
-        }
 
-        // GET: api/RealEstates
+        }
+        //[HttpGet] //Försökte lösa httpget med parametrar strulade...
+        //[AllowAnonymous]
+        //public async Task<ActionResult<IEnumerable<RealEstate>>> GetRealEstates(int skip, int take) => take.HasValue ?
+        //    GetRealEstates() : GetRealEstates(skip, take);
+
+
+        //{
+        //    return await _context.RealEstates.OrderBy(d => d.CreatedOn).Take(10).ToListAsync();
+        //}
+
+
+        //GET: api/RealEstates
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<RealEstate>>> GetRealEstates()
         {
-            return await _context.RealEstates.ToListAsync();
+
+            return await _context.RealEstates.Include(d => d.Comments).OrderByDescending(d => d.CreatedOn).Take(10).ToListAsync();
+        }
+
+        // GET: api/RealEstates?skip={int}&take={int}
+        [HttpGet("skiptake")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<RealEstate>>> GetRealEstatesQuery([FromQuery] int skip, [FromQuery] int take)
+        {
+            return await _context.RealEstates.Include(d => d.Comments).OrderBy(d => d.CreatedOn).Skip(skip).Take(take).ToListAsync();
         }
 
         // GET: api/RealEstates/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<RealEstate>> GetRealEstate(int id)
+        [AllowAnonymous]
+
+        [ResponseType(typeof(RealEstateDTO))]
+        public async Task<IActionResult> GetRealEstate(int id)
         {
-            var realEstate = await _context.RealEstates.FindAsync(id);
-
-            if (realEstate == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return NotFound();
-            }
+                var realEstate = await _context.RealEstates.Include(d => d.Comments).SingleOrDefaultAsync( i => i.ide == id);
 
-            return realEstate;
+
+                if (realEstate == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(realEstate);
+            }
+            else
+            {
+               var realEstate = await _context.RealEstates.FindAsync(id);
+               var Dto = new RealEstateDTO(realEstate);
+
+                return Ok(Dto);
+            }
         }
+        //Försök att skriva patch för att updatera en grej
+        //[HttpPatch("{id}")] 
+        //public async Task<IActionResult> UpdateRealEstate(int id)
+        //{
+        //    _context.Realestate.
+        //    Update
+
+        //    return Ok();
+        //}
 
         // PUT: api/RealEstates/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -88,6 +130,7 @@ namespace FastighetsProjectApi_CCRA.Controllers
         // POST: api/RealEstates
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<RealEstate>> PostRealEstate(RealEstate realEstate)
         {
             _context.RealEstates.Add(realEstate);
