@@ -27,7 +27,7 @@ public class DbContext : Microsoft.EntityFrameworkCore.DbContext
               {
                   ID = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
                   UserId = "hejj",
-                  UserName = "Börje",
+                  UserName = "Börje@shietshow.com",
                   RealEstates = 2,
                   Comments = 1,
                   Rating = 4
@@ -36,7 +36,7 @@ public class DbContext : Microsoft.EntityFrameworkCore.DbContext
               {
                   ID = new Guid("c9d4c053-49b6-410c-bc78-2d54a999187c"),
                   UserId = "hallå",
-                  UserName = "Börje",
+                  UserName = "Börje@shietshow.com",
                   RealEstates = 3,
                   Comments = 2,
                   Rating = 5
@@ -81,29 +81,29 @@ public class DbContext : Microsoft.EntityFrameworkCore.DbContext
                   UserName = "Nisse",
                   RealestateType = "Lagerlokal"
               }
-           );
-                modelBuilder.Entity<Comment>().HasData
-                (
-                    new Comment
-                    {
-                        GuidID = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991798"),
-                        id = 1,
-                        RealEstateId = 1,
-                        Content = "Superbra",
-                        UserName = "Björn",
-                        CreatedOn = new DateTime(2020 - 12 - 13)
+           ) ;
+        modelBuilder.Entity<Comment>().HasData
+        (
+            new Comment
+            {
+                GuidID = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991798"),
+                id = 1,
+                RealEstateIde = 1,
+                Content = "Superbra",
+                UserName = "Björn",
+                CreatedOn = new DateTime(2020 - 12 - 13)
 
-                    },
-                    new Comment
-                    {
-                        GuidID = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991797"),
-                        id = 2,
-                        RealEstateId = 2,
-                        Content = "Superbra men jättedåligt",
-                        UserName = "Nisse",
-                        CreatedOn = new DateTime(2020 - 12 - 14)
-                    }
-
-                ); 
+            },
+            new Comment
+            {
+                GuidID = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991797"),
+                id = 2,
+                RealEstateIde = 2,
+                Content = "Superbra men jättedåligt",
+                UserName = "Nisse",
+                CreatedOn = new DateTime(2020 - 12 - 14)
             }
+
+        );
+    }
         }

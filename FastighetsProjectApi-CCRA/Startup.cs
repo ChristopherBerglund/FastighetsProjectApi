@@ -79,6 +79,7 @@ namespace FastighetsProjectApi_CCRA
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FastighetsProjectApi_CCRA", Version = "v1" });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
 
             //services.AddDbContext<DbContext>(options =>

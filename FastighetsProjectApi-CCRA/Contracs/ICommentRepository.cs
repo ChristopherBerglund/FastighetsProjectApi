@@ -11,6 +11,8 @@ namespace FastighetsProjectApi_CCRA.Contracs
     {
         IEnumerable<Comment> GetAllComment(bool trackChanges);
         Comment GetComment(Guid id, bool trackChanges);
+        public List<Comment> GetCommentSkipTake(int id, int skip, int take);
+        //public List<Comment> GetCommentSkipTake(int id);
         void CreateComment(Comment comment);
         IEnumerable<Comment> GetByIds(IEnumerable<Guid> ids, bool trackChanges); //?
         void DeleteComment(Comment comment);
