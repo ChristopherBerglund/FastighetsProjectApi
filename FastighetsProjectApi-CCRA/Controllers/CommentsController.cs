@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using FastighetsProjectApi_CCRA.Areas.Identity.Data;
 using FastighetsProjectApi_CCRA.DTOmodel;
+using FastighetsProjectApi_CCRA.HelpClasses;
+using FastighetsProjectApi_CCRA.Repository;
+using FastighetsProjectApi_CCRA.Contracs;
 
 namespace FastighetsProjectApi_CCRA.Controllers
 {
@@ -20,12 +23,14 @@ namespace FastighetsProjectApi_CCRA.Controllers
         private readonly DbContext _context;
         private readonly SignInManager<FastighetsProjectApi_CCRAUser> _signInManager;
         private readonly UserManager<FastighetsProjectApi_CCRAUser> _userManager;
+        private readonly ICommentRepository _commentRepository;
 
-        public CommentsController(DbContext context, SignInManager<FastighetsProjectApi_CCRAUser> signInManager, UserManager<FastighetsProjectApi_CCRAUser> userManager)
+        public CommentsController(DbContext context, SignInManager<FastighetsProjectApi_CCRAUser> signInManager, UserManager<FastighetsProjectApi_CCRAUser> userManager, ICommentRepository commentRepository)
         {
             _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
+            _commentRepository = commentRepository;
         }
 
 
@@ -51,43 +56,23 @@ namespace FastighetsProjectApi_CCRA.Controllers
         // GET: api/Comments (Skip take)
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<Comment>>> GetCommentSkipTake(int id, int skip, int take)
+        public async Task<ActionResult<IEnumerable<Comment>>> GetCommentsTS(int id, [FromQuery] SkipTakeParameters skipTakeParameters)
         {
-            
-            //if (skip == null &&  take == null)
-            //{ 
-            //    //var commentlist = await  GetCommentSkipTake(id, skip, take);
-            //    //return Ok(commentlist);
-            //    return Ok(GetCommentSkipTake(id, skip, take));
-            //}
-            //else {
-            //    var result = await GetCommentSkipTake(id, skip, take);
 
-            //    var commentlist = await GetCommentSkipTake(id, skip, take);
+            var comments =  _commentRepository.GetCommentsTS(id, skipTakeParameters);
 
-            //    return Ok(commentlist);
-            //}
-
-            //return await _context.Comments.Where(c => c.RealEstateIde == id).OrderByDescending(d => d.CreatedOn).Skip(skip).Take(take).ToListAsync();
+            return Ok(comments);
         }
 
         //get api/ByUser/USERNAME
-        [HttpGet("ByUser/{username}")]
+        [HttpGet("byuser/{username}")]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<Comment>>> GetUserComments (string username)
+        public async Task<ActionResult<IEnumerable<Comment>>> GetCommentsByUserTS(string username, [FromQuery] SkipTakeParameters skipTakeParameters)
         {
-            return await _context.Comments.Where(a => a.UserName == username).Take(10).OrderByDescending(c => c.CreatedOn).ToListAsync();       
+            var comments = _commentRepository.GetCommentsByUserTS(username, skipTakeParameters);
+            return Ok(comments);
         }
-        //get api/ByUser/USERNAME skip & take
-        [HttpGet("ByUser/{username}/comment")]
-        [Authorize]
-        public async Task<ActionResult<IEnumerable<Comment>>> GetUserComments(string username, int skip, int take)
-        {
-            if(take > 100){ take = 100; }
-            if (take <= 0) { take = 10; }
 
-            return await _context.Comments.Where(a => a.UserName == username).Skip(skip).Take(take).OrderByDescending(c => c.CreatedOn).ToListAsync();
-        }
 
         //// PUT: api/Comments/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -124,7 +109,7 @@ namespace FastighetsProjectApi_CCRA.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Comment>> PostComment(Comment comment)
+        public async Task<ActionResult<Comment>> PostComment([FromBody]Comment comment)
         {
             comment.UserName = User.Identity.Name.ToString();
 

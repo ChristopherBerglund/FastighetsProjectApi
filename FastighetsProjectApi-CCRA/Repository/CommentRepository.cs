@@ -1,6 +1,8 @@
 ﻿using FastighetsProjectApi_CCRA.Contracs;
 using FastighetsProjectApi_CCRA.DTOmodel;
+using FastighetsProjectApi_CCRA.HelpClasses;
 using FastighetsProjectApi_CCRA.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,10 +14,12 @@ namespace FastighetsProjectApi_CCRA.Repository
 {
     public class CommentRepository : RepositoryBase<Comment>, ICommentRepository
     {
+        public DbContext _Context { get; }
+
         public CommentRepository(DbContext Context)
             : base(Context)
         {
-
+            _Context = Context;
         }
 
         public IEnumerable<Comment> GetAllComment(bool trackChanges)
@@ -29,32 +33,6 @@ namespace FastighetsProjectApi_CCRA.Repository
             FindByCondition(c => c.id.Equals(inId), trackChanges)
             .SingleOrDefault();
 
-        public List<Comment> GetCommentSkipTake(int id, int skip, int take)
-        {
-            var comments = new List<Comment>();
-            if (skip == null && take == null)
-            {
-                Console.WriteLine("GetCommentSkipTake Failed");
-                comments = _dbContext.Comments.Where(c => c.RealEstateIde == id).OrderByDescending(d => d.CreatedOn).ToList();
-                    return comments;
-            }
-            else 
-            {
-                Console.WriteLine("GetCommentSkipTake Failed");
-                comments = _dbContext.Comments.Where(c => c.RealEstateIde == id).OrderByDescending(d => d.CreatedOn).Skip((int)skip).Take((int)take).ToList();
-                return comments;
-            }
-            
-            return comments;
-
-        }
-        //public List<Comment> GetCommentSkipTake(int id)
-        //{
-
-        //    var comments = _dbContext.Comments.Where(c => c.RealEstateIde == id).OrderByDescending(d => d.CreatedOn).ToList();
-
-        //    return comments;
-        //}
 
         public CommentDTO GetCommenten(Comment comment) => new CommentDTO(comment);
 
@@ -68,6 +46,18 @@ namespace FastighetsProjectApi_CCRA.Repository
         IEnumerable<Comment> ICommentRepository.GetByIds(IEnumerable<Guid> ids, bool trackChanges) =>
             FindByCondition(x => ids.Contains(x.GuidID), trackChanges) //GUID?
                 .ToList();
+
+
+        public IEnumerable<Comment> GetCommentsTS(int id, SkipTakeParameters skipTakeParameters)
+        {
+            return  _dbContext.Comments.Where(c => c.RealEstateIde == id).OrderByDescending(d => d.CreatedOn).Skip(skipTakeParameters.skip).Take(skipTakeParameters.take).ToList();
+            
+        }
+
+        public IEnumerable<Comment> GetCommentsByUserTS(string username, SkipTakeParameters skipTakeParameters)
+        {
+            return _dbContext.Comments.Where(c => c.UserName == username).OrderByDescending(d => d.CreatedOn).Skip(skipTakeParameters.skip).Take(skipTakeParameters.take).ToList();
+        }
     }
 }
 
