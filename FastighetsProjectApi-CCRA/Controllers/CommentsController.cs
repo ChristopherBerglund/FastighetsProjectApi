@@ -50,7 +50,14 @@ namespace FastighetsProjectApi_CCRA.Controllers
         public async Task<ActionResult<IEnumerable<Comment>>> GetCommentsByUserTS(string username, [FromQuery] SkipTakeParameters skipTakeParameters)
         {
             var comments = _commentRepository.GetCommentsByUserTS(username, skipTakeParameters);
+
+            if (comments.Any()) { 
             return Ok(comments);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // POST: api/Comments
@@ -59,8 +66,12 @@ namespace FastighetsProjectApi_CCRA.Controllers
         [Authorize]
         public async Task<ActionResult<Comment>> PostComment([FromBody]Comment comment)
         {
-            
 
+            if (comment == null)
+            {
+                return BadRequest();
+            }
+            else { 
             _context.Comments.Add(comment);
             comment.UserName = User.Identity.Name;
 
@@ -76,7 +87,7 @@ namespace FastighetsProjectApi_CCRA.Controllers
             /////////////////////////////////
 
             return Created("https//localhost:5001/api/comments", content);
-
+            }
         }
 
         // DELETE: api/Comments/5

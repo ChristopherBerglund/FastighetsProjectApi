@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FastighetsProjectApi_CCRA.Model;
+using Microsoft.AspNetCore.Authorization;
+using FastighetsProjectApi_CCRA.DTOmodel;
+using FastighetsProjectApi_CCRA.HelpClasses;
 
 namespace FastighetsProjectApi_CCRA.Controllers
 {
@@ -28,17 +31,18 @@ namespace FastighetsProjectApi_CCRA.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(string id)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<User>> GetUser(string username)
         {
-            var user = await _context.Users.FindAsync(id);
-
+            var user = await _context.Users.Where(x => x.UserName == username).FirstOrDefaultAsync();
+            
             if (user == null)
             {
                 return NotFound();
             }
 
-            return user;
+            var userdto = new UserDTO(user);
+            return Ok(userdto);
         }
 
         // PUT: api/Users/5
@@ -95,6 +99,32 @@ namespace FastighetsProjectApi_CCRA.Controllers
             }
 
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+        }
+
+        [HttpPost("rate")]
+        [Authorize]
+        public async Task<ActionResult<User>> PostUserRating([FromBody]GuidRating guidRating)
+        {
+            //var guidid = new Guid(ID);
+
+            var userrate = await _context.Users.FirstOrDefaultAsync(a => a.ID == guidRating.ID);
+            if (guidRating.rating > 5)
+            {
+                guidRating.rating = 5;
+            }
+
+
+            if (userrate == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                userrate.RatingCalc(guidRating.rating);
+                _context.SaveChanges();
+
+                return Ok();
+            }
         }
 
         // DELETE: api/Users/5

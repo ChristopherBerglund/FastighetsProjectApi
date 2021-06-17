@@ -16,5 +16,16 @@ namespace FastighetsProjectApi_CCRA.Model
         public int Comments { get; set; }
         public double Rating { get; set; }
         public string AvatarImageUrl { get; set; }
+        public int CounterRating { get; set; }
+        public double TotalRatingSum { get; set; }
+
+        public void RatingCalc(double rate)
+        {
+
+            CounterRating += 1;
+            TotalRatingSum += rate;
+            Rating = TotalRatingSum / CounterRating;
+
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FastighetsProjectApi_CCRA.HelpClasses;
+﻿using FastighetsProjectApi_CCRA.DTOmodel;
+using FastighetsProjectApi_CCRA.HelpClasses;
 using FastighetsProjectApi_CCRA.Model;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,6 @@ namespace FastighetsProjectApi_CCRA.Contracs
         void DeleteComment(Comment comment);
 
         IEnumerable<Comment> GetCommentsTS(int id, SkipTakeParameters skipTakeParameters);
-        IEnumerable<Comment> GetCommentsByUserTS(string username, SkipTakeParameters skipTakeParameters);
+        IEnumerable<CommentDTO> GetCommentsByUserTS(string username, SkipTakeParameters skipTakeParameters);
     }
 }

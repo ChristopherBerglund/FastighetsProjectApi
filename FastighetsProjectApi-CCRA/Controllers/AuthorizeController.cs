@@ -57,8 +57,14 @@ namespace FastighetsProjectApi_CCRA.Controllers
                     };
                     var token = tokenHandler.CreateToken(tokenDescriptior);
                     var tokenString = tokenHandler.WriteToken(token);
+                    var tokentype = "bearer";
+                    var expires_in = tokenDescriptior.Expires;
+                    var issued = DateTime.UtcNow;
+                    var username = myLoginModel.Email;
+                    
+                    
 
-                    return Ok(new { Token = tokenString });
+                    return Ok(new { Token = tokenString, Tokentype = tokentype, Expires = expires_in, Issued=issued, Username = username});
                 }
                 else
                 {
@@ -90,6 +96,8 @@ namespace FastighetsProjectApi_CCRA.Controllers
                 var user = new User()
                 {
                     UserName = myLoginModel.Email
+                   
+                    
                 };
                 context.Users.Add(user);
                 context.SaveChanges();
