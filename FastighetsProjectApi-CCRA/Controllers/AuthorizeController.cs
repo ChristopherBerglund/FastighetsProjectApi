@@ -84,7 +84,19 @@ namespace FastighetsProjectApi_CCRA.Controllers
 
             if (result.Succeeded)
             {
+
+                /////////////////////////////////
+                var user = new User()
+                {
+                    UserName = myLoginModel.Email
+                };
+                context.Users.Add(user);
+                context.SaveChanges();
+                /////////////////////////////////
+                
                 return Ok(new { Result = "Register Success" });
+
+               
             }
             else
             {
