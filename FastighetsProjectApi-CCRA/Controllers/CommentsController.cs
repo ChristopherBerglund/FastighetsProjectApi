@@ -39,7 +39,7 @@ namespace FastighetsProjectApi_CCRA.Controllers
         public async Task<ActionResult<IEnumerable<Comment>>> GetCommentsTS(int id, [FromQuery] SkipTakeParameters skipTakeParameters)
         {
 
-            var comments =  _commentRepository.GetCommentsTS(id, skipTakeParameters);
+            var comments = _commentRepository.GetCommentsTS(id, skipTakeParameters);
 
             return Ok(comments);
         }

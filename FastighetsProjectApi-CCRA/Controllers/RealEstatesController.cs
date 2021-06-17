@@ -38,10 +38,22 @@ namespace FastighetsProjectApi_CCRA.Controllers
         // GET: api/RealEstates?skip={int}&take={int}
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<RealEstate>>> GetRealEstatesQuery([FromQuery] SkipTakeParameters skipTakeParameters)
+        public async Task<ActionResult<IEnumerable<RealEstateDTO>>> GetRealEstatesQuery([FromQuery] SkipTakeParameters skipTakeParameters)
         {
+
             var realestates = _realEstateRepository.GetRealEstateST(skipTakeParameters);
-            return Ok(realestates);
+            if (realestates.Any())
+            {
+                var realDTO = new List<RealEstateDTO>();
+                foreach (var estate in realestates)
+                {
+                    var dto = new RealEstateDTO(estate);
+                    realDTO.Add(dto);
+                }
+
+                return Ok(realestates);
+            }
+            else return NoContent();
             //return await _context.RealEstates.Include(d => d.Comments).OrderBy(d => d.CreatedOn).Skip(skip).Take(take).ToListAsync();
         }
 
@@ -136,13 +148,13 @@ namespace FastighetsProjectApi_CCRA.Controllers
             {
                 return NotFound();
 
+            }
              /////////////////////////////////
             var username = User.Identity.Name;
 
             _context.Users.FirstOrDefault(a => a.UserName == realEstate.UserName).RealEstates--;
             _context.SaveChanges();
             /////////////////////////////////
-            }
 
             _context.RealEstates.Remove(realEstate);
             await _context.SaveChangesAsync();
