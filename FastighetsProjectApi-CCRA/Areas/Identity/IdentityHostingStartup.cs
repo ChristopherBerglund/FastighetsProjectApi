@@ -15,13 +15,20 @@ namespace FastighetsProjectApi_CCRA.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
+            builder.ConfigureServices((context, services) =>
+            {
                 services.AddDbContext<FastighetsProjectApi_CCRAContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("FastighetsProjectApi_CCRAContextConnection")));
 
-                services.AddDefaultIdentity<FastighetsProjectApi_CCRAUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                    .AddEntityFrameworkStores<FastighetsProjectApi_CCRAContext>();
+                services.AddDefaultIdentity<FastighetsProjectApi_CCRAUser>(options =>
+                {
+                //options.Password.RequireNonAlphanumeric = false;
+                options.SignIn.RequireConfirmedAccount = false;
+                })
+
+                        .AddEntityFrameworkStores<FastighetsProjectApi_CCRAContext>();
+                 
             });
         }
     }

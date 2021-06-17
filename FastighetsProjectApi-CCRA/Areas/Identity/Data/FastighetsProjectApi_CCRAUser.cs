@@ -9,5 +9,6 @@ namespace FastighetsProjectApi_CCRA.Areas.Identity.Data
     // Add profile data for application users by adding properties to the FastighetsProjectApi_CCRAUser class
     public class FastighetsProjectApi_CCRAUser : IdentityUser
     {
+
     }
 }

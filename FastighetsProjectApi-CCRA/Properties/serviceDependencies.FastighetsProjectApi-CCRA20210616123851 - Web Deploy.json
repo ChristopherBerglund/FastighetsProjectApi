@@ -1,19 +1,20 @@
 {
   "dependencies": {
-    "secrets1": {
-      "type": "secrets.user"
+    "apis1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/FastighetsProjectApi-CCRAapi/apis/FastighetsProjectApi-CCRA",
+      "type": "apis.azure"
     },
     "mssql1": {
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/fastighetsprojectapi-ccradbserver/databases/FastighetsProjectApi-CCRA_db",
       "type": "mssql.azure",
       "connectionId": "DbContext",
-      "secretStore": "LocalSecretsFile"
+      "secretStore": "AzureAppSettings"
     },
     "mssql2": {
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/fastighetsprojectapi-ccradbserver/databases/IdentitetDBAPI",
       "type": "mssql.azure",
       "connectionId": "FastighetsProjectApi_CCRAContextConnection",
-      "secretStore": "LocalSecretsFile"
+      "secretStore": "AzureAppSettings"
     }
   }
 }

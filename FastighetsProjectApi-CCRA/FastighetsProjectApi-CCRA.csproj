@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>FastighetsProjectApi_CCRA</RootNamespace>
+    <UserSecretsId>d816d9c5-aaed-4b3e-9872-7d7e4c70341b</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

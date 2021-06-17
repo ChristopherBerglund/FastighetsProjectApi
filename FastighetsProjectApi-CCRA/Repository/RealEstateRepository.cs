@@ -15,7 +15,6 @@ namespace FastighetsProjectApi_CCRA.Repository
         public RealEstateRepository(DbContext Context)
             : base(Context)
         {
-
         }
 
         public IEnumerable<RealEstate> GetAllRealEstate(bool trackChanges)
