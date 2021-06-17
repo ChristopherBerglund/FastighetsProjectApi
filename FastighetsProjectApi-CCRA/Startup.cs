@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Identity;
 using FastighetsProjectApi_CCRA.Areas.Identity.Data;
 using FastighetsProjectApi_CCRA.Contracs;
 using FastighetsProjectApi_CCRA.Repository;
+using FastighetsProjectApi_CCRA.Data;
 
 namespace FastighetsProjectApi_CCRA
 {
@@ -39,8 +40,12 @@ namespace FastighetsProjectApi_CCRA
         {
             //Ändrat Auth
             var key = Encoding.ASCII.GetBytes("Krypterings_nyckel_ubwHBJHgirbIBHIBH768Bhfbehbkvs%&/()");
+            // Add Identity services to the services container.
+   
+
             services.AddAuthentication(x =>
                 {
+
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 }).AddJwtBearer(x =>
@@ -59,6 +64,7 @@ namespace FastighetsProjectApi_CCRA
                             return Task.CompletedTask;
                         }
                     };
+                    
                     x.RequireHttpsMetadata = false;
                     x.SaveToken = true;
                     x.TokenValidationParameters = new TokenValidationParameters
@@ -70,7 +76,7 @@ namespace FastighetsProjectApi_CCRA
                      };
                 });
             //////////
-
+ 
             services.ConfigureCors();
             services.ConfigureIISIntergration();
             services.ConfigureSqlContext(Configuration);
@@ -83,6 +89,8 @@ namespace FastighetsProjectApi_CCRA
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FastighetsProjectApi_CCRA", Version = "v1" });
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
+  
+
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IRealEstateRepository, RealEstateRepository>();
             services.AddDbContext<DbContext>(options =>

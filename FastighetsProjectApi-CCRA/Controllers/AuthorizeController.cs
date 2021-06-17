@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace FastighetsProjectApi_CCRA.Controllers
 {
-    [Route("api/account")]
+    [Route("Api/Account")]
     public class AuthorizeController : Controller
     {
         private readonly FastighetsProjectApi_CCRAContext dbContext;
@@ -34,7 +34,7 @@ namespace FastighetsProjectApi_CCRA.Controllers
             this.signInManager = signInManager;
         }
         //[Route("api/token")] // Vi vill ha register som sin egen adress.. oklart
-        [HttpPost("getToken")] 
+        [HttpPost("Token")] 
         [AllowAnonymous]
         public async Task<ActionResult> GetToken([FromBody] MyLoginModelType myLoginModel)
         {
@@ -69,8 +69,9 @@ namespace FastighetsProjectApi_CCRA.Controllers
 
         }
       
+       
+        [HttpPost("Register")]
         [AllowAnonymous]
-        [HttpPost("register")]
         public async Task<ActionResult> Register([FromBody] MyLoginModelType myLoginModel)
         {
             var fastighetsProjectApi_CCRAUser = new FastighetsProjectApi_CCRAUser()

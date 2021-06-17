@@ -33,25 +33,7 @@ namespace FastighetsProjectApi_CCRA.Controllers
             _context = context;
             _realEstateRepository = realEstateRepository;
         }
-        //[HttpGet] //Försökte lösa httpget med parametrar strulade...
-        //[AllowAnonymous]
-        //public async Task<ActionResult<IEnumerable<RealEstate>>> GetRealEstates(int skip, int take) => take.HasValue ?
-        //    GetRealEstates() : GetRealEstates(skip, take);
 
-
-        //{
-        //    return await _context.RealEstates.OrderBy(d => d.CreatedOn).Take(10).ToListAsync();
-        //}
-
-
-        //GET: api/RealEstates
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public async Task<ActionResult<IEnumerable<RealEstate>>> GetRealEstates()
-        //{
-
-        //    return await _context.RealEstates.Include(d => d.Comments).OrderByDescending(d => d.CreatedOn).Take(10).ToListAsync();
-        //}
 
         // GET: api/RealEstates?skip={int}&take={int}
         [HttpGet]
@@ -90,15 +72,6 @@ namespace FastighetsProjectApi_CCRA.Controllers
                 return Ok(Dto);
             }
         }
-        //Försök att skriva patch för att updatera en grej
-        //[HttpPatch("{id}")] 
-        //public async Task<IActionResult> UpdateRealEstate(int id)
-        //{
-        //    _context.Realestate.
-        //    Update
-
-        //    return Ok();
-        //}
 
         // PUT: api/RealEstates/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -163,7 +136,5 @@ namespace FastighetsProjectApi_CCRA.Controllers
         {
             return _context.RealEstates.Any(e => e.ide == id);
         }
-
-
     }
 }
