@@ -137,8 +137,19 @@ namespace FastighetsProjectApi_CCRA.Controllers
         [Authorize]
         public async Task<ActionResult<RealEstate>> PostRealEstate(RealEstate realEstate)
         {
+            var username = User.Identity.Name;
+
             _context.RealEstates.Add(realEstate);
+            realEstate.UserName = username;
             await _context.SaveChangesAsync();
+           
+
+            /////////////////////////////////
+           
+
+            _context.Users.FirstOrDefault(a => a.UserName == realEstate.UserName).RealEstates++;
+            _context.SaveChanges();
+            /////////////////////////////////
 
             return CreatedAtAction("GetRealEstate", new { id = realEstate.Id }, realEstate);
         }
@@ -151,6 +162,13 @@ namespace FastighetsProjectApi_CCRA.Controllers
             if (realEstate == null)
             {
                 return NotFound();
+
+             /////////////////////////////////
+            var username = User.Identity.Name;
+
+            _context.Users.FirstOrDefault(a => a.UserName == realEstate.UserName).RealEstates--;
+            _context.SaveChanges();
+            /////////////////////////////////
             }
 
             _context.RealEstates.Remove(realEstate);

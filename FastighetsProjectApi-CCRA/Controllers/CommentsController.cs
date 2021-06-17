@@ -111,13 +111,21 @@ namespace FastighetsProjectApi_CCRA.Controllers
         [Authorize]
         public async Task<ActionResult<Comment>> PostComment([FromBody]Comment comment)
         {
-            comment.UserName = User.Identity.Name.ToString();
+            
 
             _context.Comments.Add(comment);
+            comment.UserName = User.Identity.Name;
 
             await _context.SaveChangesAsync();
 
             var content = new CommentDTO(comment);
+
+           /////////////////////////////////
+           
+
+            _context.Users.FirstOrDefault(a => a.UserName == comment.UserName).Comments++;
+            _context.SaveChanges();
+            /////////////////////////////////
 
             return Created("https//localhost:5001/api/comments", content);
 
@@ -135,7 +143,12 @@ namespace FastighetsProjectApi_CCRA.Controllers
 
             _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
+            //////////////////////////////////
+             //var username = User.Identity.Name;
 
+            _context.Users.FirstOrDefault(a => a.UserName == comment.UserName).Comments--;
+            _context.SaveChanges();
+            //////////////////////////////////
             return NoContent();
         }
 
