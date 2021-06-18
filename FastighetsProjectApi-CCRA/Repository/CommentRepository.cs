@@ -54,9 +54,16 @@ namespace FastighetsProjectApi_CCRA.Repository
             
         }
 
-        public IEnumerable<Comment> GetCommentsByUserTS(string username, SkipTakeParameters skipTakeParameters)
+        public IEnumerable<CommentDTO> GetCommentsByUserTS(string username, SkipTakeParameters skipTakeParameters)
         {
-            return _dbContext.Comments.Where(c => c.UserName == username).OrderByDescending(d => d.CreatedOn).Skip(skipTakeParameters.skip).Take(skipTakeParameters.take).ToList();
+            var comments =_dbContext.Comments.Where(c => c.UserName == username).OrderByDescending(d => d.CreatedOn).Skip(skipTakeParameters.skip).Take(skipTakeParameters.take).ToList();
+            var commentsDTO = new List<CommentDTO>();
+            foreach (var comment in comments)
+            {
+                commentsDTO.Add(new CommentDTO(comment));
+
+            }
+            return commentsDTO;
         }
 
         public IEnumerable<CommentDTO> PostComment(Comment comment)

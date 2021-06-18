@@ -36,7 +36,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('FastighetsProjectApi-CCRA', subscription().subscriptionId)))]",
+      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('ProjektFastigheter', subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
       "dependsOn": [
@@ -94,14 +94,14 @@
             },
             {
               "type": "Microsoft.ApiManagement/service/apis",
-              "name": "FastighetsProjectApi-CCRAapi/FastighetsProjectApi-CCRA",
+              "name": "FastighetsProjectApi-CCRAapi/ProjektFastigheter",
               "properties": {
-                "displayName": "FastighetsProjectApi-CCRA",
+                "displayName": "ProjektFastigheter",
                 "apiRevision": "1",
                 "description": null,
                 "subscriptionRequired": true,
                 "serviceUrl": null,
-                "path": "",
+                "path": "apifastigheterapi",
                 "protocols": [
                   "https"
                 ],

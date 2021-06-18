@@ -20,6 +20,6 @@ namespace FastighetsProjectApi_CCRA.Contracs
         IEnumerable<CommentDTO> PostComment(Comment comment);
 
         IEnumerable<Comment> GetCommentsTS(int id, SkipTakeParameters skipTakeParameters);
-        IEnumerable<Comment> GetCommentsByUserTS(string username, SkipTakeParameters skipTakeParameters);
+        IEnumerable<CommentDTO> GetCommentsByUserTS(string username, SkipTakeParameters skipTakeParameters);
     }
 }

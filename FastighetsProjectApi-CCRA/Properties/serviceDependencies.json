@@ -1,8 +1,5 @@
 {
   "dependencies": {
-    "apis1": {
-      "type": "apis"
-    },
     "secrets1": {
       "type": "secrets"
     },
@@ -13,6 +10,9 @@
     "mssql2": {
       "type": "mssql",
       "connectionId": "FastighetsProjectApi_CCRAContextConnection"
+    },
+    "apis1": {
+      "type": "apis"
     }
   }
 }
