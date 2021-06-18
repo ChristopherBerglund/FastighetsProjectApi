@@ -58,6 +58,22 @@ namespace FastighetsProjectApi_CCRA.Repository
         {
             return _dbContext.Comments.Where(c => c.UserName == username).OrderByDescending(d => d.CreatedOn).Skip(skipTakeParameters.skip).Take(skipTakeParameters.take).ToList();
         }
+
+        public IEnumerable<CommentDTO> PostComment(Comment comment)
+        {
+            _dbContext.Comments.Add(comment);
+
+            _dbContext.SaveChangesAsync();
+
+            var content = new CommentDTO(comment);
+            var CommenDTOList = new List<CommentDTO>();
+            CommenDTOList.Add(content);
+
+            _dbContext.Users.FirstOrDefault(a => a.UserName == comment.UserName).Comments++;
+            _dbContext.SaveChanges();
+
+            return CommenDTOList;
+        }
     }
 }
 

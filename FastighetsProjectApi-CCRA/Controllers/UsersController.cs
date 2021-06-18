@@ -21,24 +21,30 @@ namespace FastighetsProjectApi_CCRA.Controllers
         }
 
         // GET: api/Users
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser()
-        {
-            return await _context.Users.ToListAsync();
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<User>>> GetUser()
+        //{
+        //    return await _context.Users.ToListAsync();
+        //}
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(string id)
+        // GET: api/Users/{username}
+        [HttpGet("{username}")]
+        public async Task<ActionResult<User>> GetUser(string username)
         {
-            var user = await _context.Users.FindAsync(id);
+            var userresult = await _context.Users.Where(x => x.UserName.Equals(username)).ToListAsync();
 
-            if (user == null)
+            if (userresult == null)
             {
                 return NotFound();
             }
-
-            return user;
+            else if (userresult.Any())
+            {
+                return Ok(userresult[0]);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         // PUT: api/Users/5

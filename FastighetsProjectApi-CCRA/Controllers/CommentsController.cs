@@ -59,24 +59,15 @@ namespace FastighetsProjectApi_CCRA.Controllers
         [Authorize]
         public async Task<ActionResult<Comment>> PostComment([FromBody]Comment comment)
         {
-            
-
-            _context.Comments.Add(comment);
+            if (comment == null)
+            {
+                return BadRequest();
+            }
             comment.UserName = User.Identity.Name;
-
-            await _context.SaveChangesAsync();
-
-            var content = new CommentDTO(comment);
-
-           /////////////////////////////////
-           
-
-            _context.Users.FirstOrDefault(a => a.UserName == comment.UserName).Comments++;
-            _context.SaveChanges();
-            /////////////////////////////////
-
-            return Created("https//localhost:5001/api/comments", content);
-
+            var result = _commentRepository.PostComment(comment);
+            
+            
+            return Created("https//localhost:5001/api/comments", result);// behöver skicka in en annan URI
         }
 
         // DELETE: api/Comments/5
